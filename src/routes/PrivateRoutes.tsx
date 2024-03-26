@@ -1,6 +1,31 @@
-import { Outlet } from "react-router-dom";
-
+import { Navigate, Outlet } from "react-router-dom";
+import useRental from "../store";
+import { jwtDecode } from "jwt-decode";
+type tokenType = {
+  userId: string;
+  email: string;
+  name: string;
+  iat: number;
+  exp: number;
+};
 function PrivateRoutes() {
+  const token = useRental((e) => e.token);
+  const setToken = useRental((e) => e.setToken);
+
+  if (!token) {
+    return <Navigate to={"/login"} />;
+  }
+
+  const decoded = jwtDecode(token) as tokenType;
+
+  const expirationTime = new Date(decoded.exp * 1000);
+  const currentTime = new Date();
+
+  if (currentTime > expirationTime) {
+    setToken("");
+    return <Navigate to={"/login"} />;
+  }
+
   return <Outlet />;
 }
 

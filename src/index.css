@@ -2,15 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
+  .brand-bg-login {
+    background-image: url("../src/assets/leftHeroBg.svg");
+    background-repeat: no-repeat;
+    background-color: "#2563eb";
+    background-size: cover;
+  }
+
+  .brand-bg-signup {
+    background-image: url("../src/assets/rightHeroBg.svg");
+    background-repeat: no-repeat;
+    background-color: "#2563eb";
+    background-size: cover;
   }
 }
