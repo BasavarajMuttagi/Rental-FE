@@ -13,7 +13,7 @@ function CategoryLayout() {
           <SidePanel />
         </div>
         <div className="overflow-y-scroll no-scrollbar w-full">
-          <CarsCardCarosel title={""} url="" />
+          <CarsCardCarosel title={""} url="" queryKey="allcars" />
         </div>
       </div>
       <Footer />

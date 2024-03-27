@@ -10,8 +10,8 @@ function HomeLayout() {
       <div>
         <HeroCardsSideBySide />
       </div>
-      <CarsCardCarosel title={"Popular Cars"} url="/popular" />
-      <CarsCardCarosel title={"Recommended Cars"} url="/recommended" />
+      <CarsCardCarosel title={"Popular Cars"} url="/api/v1/popular" queryKey="Popular" />
+      <CarsCardCarosel title={"Recommended Cars"} url="/api/v1/recommended" queryKey="Recommended" />
       <Footer />
     </div>
   );

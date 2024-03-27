@@ -8,7 +8,11 @@ function FavoriteLayout() {
       <TopNav />
 
       <div className="overflow-y-scroll no-scrollbar w-full">
-        <CarsCardCarosel title={"Favorite"} url="" />
+        <CarsCardCarosel
+          title={"Favorite"}
+          url="/favorite/getall"
+          queryKey="Favorite"
+        />
       </div>
 
       <Footer />

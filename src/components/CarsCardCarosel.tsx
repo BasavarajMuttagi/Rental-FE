@@ -24,6 +24,11 @@ export type Car = {
   baseUrl: string;
   createdAt: string;
   updatedAt: string;
+  favorite: {
+    id: string;
+    userId: string;
+    carId: string;
+  }[];
   price: {
     offerPrice: number;
     rentalPrice: number;
@@ -34,15 +39,23 @@ export type Car = {
   };
 };
 
-function CarsCardCarosel({ title, url }: { title: string; url: string }) {
+function CarsCardCarosel({
+  title,
+  url,
+  queryKey,
+}: {
+  title: string;
+  url: string;
+  queryKey: string;
+}) {
   const location = useLocation();
   const filter = useRental((state) => state.filter);
   const { data, isError, isLoading, error } = useQuery({
-    queryKey: ["allcars", filter],
+    queryKey: [queryKey, filter],
     queryFn: async () =>
       await AxiosClient().get(
         url ||
-          `/cars?Type=${filter.Type}&Capacity=${filter.Capacity}&Price=${filter.Price}`
+          `/api/v1/cars?Type=${filter.Type}&Capacity=${filter.Capacity}&Price=${filter.Price}`
       ),
   });
 
@@ -88,7 +101,7 @@ function CarsCardCarosel({ title, url }: { title: string; url: string }) {
               id={eachObject.id}
               key={eachObject.id}
               url={eachObject.baseUrl + eachObject.imageUrl}
-              favorite={true}
+              favorite={eachObject.favorite}
               name={eachObject.name}
               carType={eachObject.carType}
               fuelcapacity={eachObject.fuelcapacity}
@@ -106,6 +119,7 @@ function CarsCardCarosel({ title, url }: { title: string; url: string }) {
   return (
     <div className="space-y-6 py-7 w-full">
       <div className="text-slate-600 px-3 font-bold">{title}</div>
+      <div className="text-slate-600 px-7 font-bold">{`${data?.data.results.length} Results`}</div>
       <div
         className={
           "flex space-x-5 px-4   overflow-x-scroll sm:space-x-0 sm:overflow-x-hidden sm:gap-y-7 sm:place-items-center sm:grid sm:grid-cols-2  md:grid md:grid-cols-3 lg:grid lg:grid-cols-4 min-[1480px]:grid min-[1480px]:grid-cols-5 min-[1854px]:grid min-[1854px]:grid-cols-6"
@@ -116,7 +130,7 @@ function CarsCardCarosel({ title, url }: { title: string; url: string }) {
             id={eachObject.id}
             key={eachObject.id}
             url={eachObject.baseUrl + eachObject.imageUrl}
-            favorite={true}
+            favorite={eachObject.favorite}
             name={eachObject.name}
             carType={eachObject.carType}
             fuelcapacity={eachObject.fuelcapacity}

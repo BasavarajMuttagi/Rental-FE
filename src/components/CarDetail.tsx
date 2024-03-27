@@ -10,7 +10,7 @@ function CarDetail() {
   let { id } = useParams();
   const { data, isError, isLoading, error } = useQuery({
     queryKey: ["cardetail", id],
-    queryFn: async () => await AxiosClient().get(`/detail/${id}`),
+    queryFn: async () => await AxiosClient().get(`/api/v1/detail/${id}`),
   });
 
   const CarDetail: Car = data?.data.result;

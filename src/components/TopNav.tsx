@@ -13,16 +13,34 @@ import { MdOutlineClose } from "react-icons/md";
 import { TbCategoryFilled } from "react-icons/tb";
 import { HiMiniHome } from "react-icons/hi2";
 import SuggestionsDropDown from "./SuggestionsDropDown";
+import { enqueueSnackbar } from "notistack";
+import axios from "axios";
 function TopNav() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showSuggestion, setShowSuggestion] = useState(false);
   const [showMobileSearchBar, setShowMobileSearchBar] = useState(false);
-
   const searchBoxRef = useRef<HTMLInputElement>(null);
 
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+  };
+
+  const uploadFile = async (selectedFile: File) => {
+    if (!selectedFile) {
+      alert("Please Select A File");
+
+      return;
+    }
+
+    const result = await AxiosClient().post("/upload", {
+      fileName: selectedFile.name,
+      fileType: selectedFile.type,
+    });
+
+    await axios.put(result.data.url, selectedFile).then(() => {
+      enqueueSnackbar("Profile Image Updated", { variant: "success" });
+    });
   };
   const { data, isError, isLoading, error } = useQuery({
     queryKey: ["searchcar", debouncedSearchTerm],
@@ -30,7 +48,7 @@ function TopNav() {
     queryFn: async () => {
       searchBoxRef.current?.focus();
       return await AxiosClient()
-        .get(`/search?term=${debouncedSearchTerm}`)
+        .get(`/api/v1/search?term=${debouncedSearchTerm}`)
         .then((res) => {
           if (res.data.results.length > 0) {
             setShowSuggestion(true);
@@ -189,25 +207,15 @@ function TopNav() {
                     <span>Settings</span>
                   </li>
                 </NavLink>
-                <NavLink
-                  to={"/profile"}
-                  style={({ isActive }) =>
-                    isActive
-                      ? {
-                          color: "#2563eb",
-                        }
-                      : { color: "" }
-                  }
-                >
-                  <li className="flex  justify-start p-2 space-x-12 items-center cursor-pointer">
-                    <img
-                      src="https://www.billboard.com/wp-content/uploads/2023/04/02-post-malone-press-2023-cr-Emma-Louise-Swanson-billboard-1548.jpg?w=942&h=623&crop=1"
-                      className="rounded-[8rem] h-8 w-8 cursor-pointer"
-                      alt="profile"
-                    />
-                    <span>Profile</span>
-                  </li>
-                </NavLink>
+
+                <li className="flex  justify-start p-2 space-x-12 items-center cursor-pointer">
+                  <img
+                    src="https://www.billboard.com/wp-content/uploads/2023/04/02-post-malone-press-2023-cr-Emma-Louise-Swanson-billboard-1548.jpg?w=942&h=623&crop=1"
+                    className="rounded-[8rem] h-8 w-8 cursor-pointer"
+                    alt="profile"
+                  />
+                  <span>Profile</span>
+                </li>
               </ul>
             </div>
           </div>
@@ -298,12 +306,24 @@ function TopNav() {
           />
         </NavLink>
 
-        <img
-          title="profile"
-          src="https://www.billboard.com/wp-content/uploads/2023/04/02-post-malone-press-2023-cr-Emma-Louise-Swanson-billboard-1548.jpg?w=942&h=623&crop=1"
-          className="rounded-[8rem] h-8 w-8 cursor-pointer"
-          alt="profile"
-        />
+        <label htmlFor="fileupload">
+          <img
+            title="profile"
+            src="https://www.billboard.com/wp-content/uploads/2023/04/02-post-malone-press-2023-cr-Emma-Louise-Swanson-billboard-1548.jpg?w=942&h=623&crop=1"
+            className="rounded-[8rem] h-8 w-8 cursor-pointer"
+            alt="profile"
+          />
+          <input
+            className="hidden"
+            id="fileupload"
+            type="file"
+            onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
+              if (e.target.files && e.target.files.length > 0) {
+                await uploadFile(e.target.files[0]);
+              }
+            }}
+          />
+        </label>
       </div>
     </nav>
   );

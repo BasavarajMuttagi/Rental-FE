@@ -6,11 +6,13 @@ import { BsFuelPumpFill } from "react-icons/bs";
 import { useState, useEffect } from "react";
 import CarCardSK from "../skeletons/CarCardSK";
 import { useNavigate } from "react-router-dom";
+import AxiosClient from "../Axios/AxiosClient";
+import { useQueryClient } from "@tanstack/react-query";
 
 function CarCard({
   id,
   url,
-  favorite = false,
+  favorite = [],
   name,
   carType,
   fuelcapacity,
@@ -21,7 +23,11 @@ function CarCard({
 }: {
   id: string;
   url: string;
-  favorite: boolean;
+  favorite: {
+    id: string;
+    userId: string;
+    carId: string;
+  }[];
   name: string;
   carType: string;
   fuelcapacity: number;
@@ -32,7 +38,7 @@ function CarCard({
 }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-
+  const queryClient = useQueryClient();
   useEffect(() => {
     const image = new Image();
     image.onload = () => setLoading(false);
@@ -50,10 +56,52 @@ function CarCard({
           </div>
         </div>
         <div>
-          {favorite ? (
-            <IoHeartSharp className="h-5 w-5 text-red-500" />
+          {favorite?.length ? (
+            <IoHeartSharp
+              className="h-5 w-5 text-red-500 cursor-pointer"
+              onClick={async () =>
+                await AxiosClient()
+                  .post("/favorite/remove", {
+                    favoriteId: favorite[0].id,
+                  })
+                  .then(async () => {
+                    queryClient.refetchQueries({
+                      queryKey: ["allcars"],
+                    });
+                    queryClient.refetchQueries({
+                      queryKey: ["Favorite"],
+                    });
+                    queryClient.refetchQueries({
+                      queryKey: ["Popular"],
+                    });
+                    queryClient.refetchQueries({
+                      queryKey: ["Recommende"],
+                    });
+                  })
+              }
+            />
           ) : (
-            <IoHeartOutline className="h-5 w-5 " />
+            <IoHeartOutline
+              className="h-5 w-5 cursor-pointer"
+              onClick={async () =>
+                await AxiosClient()
+                  .post("/favorite/add", { carId: id })
+                  .then(async () => {
+                    queryClient.refetchQueries({
+                      queryKey: ["allcars"],
+                    });
+                    queryClient.refetchQueries({
+                      queryKey: ["Favorite"],
+                    });
+                    queryClient.refetchQueries({
+                      queryKey: ["Popular"],
+                    });
+                    queryClient.refetchQueries({
+                      queryKey: ["Recommende"],
+                    });
+                  })
+              }
+            />
           )}
         </div>
       </div>
