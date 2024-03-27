@@ -10,7 +10,7 @@ import { ImSpinner8 } from "react-icons/im";
 import AxiosClient from "../Axios/AxiosClient";
 import useRental from "../store";
 function LoginForm() {
-  const { setToken } = useRental();
+  const { setToken, setUser } = useRental();
   const [isSpin, setIsSpin] = useState(false);
 
   const navigate = useNavigate();
@@ -44,6 +44,7 @@ function LoginForm() {
       .then((res: AxiosResponse) => {
         enqueueSnackbar(res.data.message, { variant: "success" });
         setToken(res.data.token);
+        setUser(res.data.user);
         navigate("/");
         reset();
         location.reload();

@@ -9,9 +9,14 @@ const storageModule = {
 const creator = (set: any) => ({
   token: "",
   filter: {
-    Type: [] as string[],
+    Type: [] as [],
     Capacity: [] as string[],
     Price: 60,
+  },
+
+  user: {
+    name: "",
+    profileUrl: "",
   },
   logout: () => {
     set(() => ({
@@ -20,6 +25,7 @@ const creator = (set: any) => ({
   },
   setToken: (newToken: string) => set(() => ({ token: newToken })),
   setFilter: (newFilter: any) => set(() => ({ filter: newFilter })),
+  setUser: (newUser: any) => set(() => ({ user: newUser })),
 });
 
 const useRental = create(persist(creator, storageModule));

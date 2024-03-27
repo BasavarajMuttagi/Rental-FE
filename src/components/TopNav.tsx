@@ -15,12 +15,13 @@ import { HiMiniHome } from "react-icons/hi2";
 import SuggestionsDropDown from "./SuggestionsDropDown";
 import { enqueueSnackbar } from "notistack";
 import axios from "axios";
+import useRental from "../store";
 function TopNav() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showSuggestion, setShowSuggestion] = useState(false);
   const [showMobileSearchBar, setShowMobileSearchBar] = useState(false);
   const searchBoxRef = useRef<HTMLInputElement>(null);
-
+  const { user, setUser } = useRental();
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -41,6 +42,17 @@ function TopNav() {
     await axios.put(result.data.url, selectedFile).then(() => {
       enqueueSnackbar("Profile Image Updated", { variant: "success" });
     });
+
+    await AxiosClient()
+      .post("/auth/update", {
+        filePath: result.data.filePath,
+      })
+      .then((res) => {
+        const current = user;
+        current.profileUrl = res.data.url;
+        setUser(current);
+        enqueueSnackbar("Profile Updated In Records", { variant: "success" });
+      });
   };
   const { data, isError, isLoading, error } = useQuery({
     queryKey: ["searchcar", debouncedSearchTerm],
@@ -210,7 +222,11 @@ function TopNav() {
 
                 <li className="flex  justify-start p-2 space-x-12 items-center cursor-pointer">
                   <img
-                    src="https://www.billboard.com/wp-content/uploads/2023/04/02-post-malone-press-2023-cr-Emma-Louise-Swanson-billboard-1548.jpg?w=942&h=623&crop=1"
+                    src={
+                      user.profileUrl
+                        ? user.profileUrl
+                        : "https://d38vo1rzl5mxfz.cloudfront.net/users/avatar.jpg"
+                    }
                     className="rounded-[8rem] h-8 w-8 cursor-pointer"
                     alt="profile"
                   />
@@ -309,7 +325,11 @@ function TopNav() {
         <label htmlFor="fileupload">
           <img
             title="profile"
-            src="https://www.billboard.com/wp-content/uploads/2023/04/02-post-malone-press-2023-cr-Emma-Louise-Swanson-billboard-1548.jpg?w=942&h=623&crop=1"
+            src={
+              user.profileUrl
+                ? user.profileUrl
+                : "https://d38vo1rzl5mxfz.cloudfront.net/users/avatar.jpg"
+            }
             className="rounded-[8rem] h-8 w-8 cursor-pointer"
             alt="profile"
           />
