@@ -1,3 +1,4 @@
+import moment from "moment";
 export const timeData = [
   "12:00 AM",
   "1:00 AM",
@@ -35,3 +36,15 @@ export const cityData = [
   "Dharwad",
   "Chitradurga",
 ];
+
+function generateSequentialDates() {
+  const startDate = moment();
+  const dates: string[] = [];
+  for (let i = 0; i < 10; i++) {
+    const currentDate = startDate.clone().add(i, "days");
+    dates.push(currentDate.format("DD/MM/YYYY"));
+  }
+  return dates;
+}
+
+export default generateSequentialDates;

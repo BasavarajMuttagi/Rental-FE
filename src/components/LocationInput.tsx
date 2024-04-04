@@ -3,8 +3,27 @@ import { IoChevronDownOutline } from "react-icons/io5";
 import { GoArrowSwitch } from "react-icons/go";
 import DropDownList from "./DropDownList";
 import { useRef, useState } from "react";
-import { cityData, timeData } from "../Axios/inputdata";
+import generateSequentialDates, {
+  cityData,
+  timeData,
+} from "../Axios/inputdata";
+import useRental from "../store";
 function LocationInput() {
+  const {
+    setPickUpLocation,
+    setPickUpTime,
+    setDropOffLocation,
+    setDropOffTime,
+    setDropOffDate,
+    setPickUpDate,
+    pickUpDate,
+    dropOffDate,
+    pickUpLocation,
+    dropOffLocation,
+    pickUpTime,
+    dropOffTime,
+  } = useRental();
+  const dates = generateSequentialDates();
   const [showDropOffLocations, setShowDropOffLocations] = useState(false);
   const [showPickUpLocations, setShowPickUpLocations] = useState(false);
   const [showDropOffDate, setShowDropOffDate] = useState(false);
@@ -29,19 +48,29 @@ function LocationInput() {
           <div className="space-y-2 relative">
             <h1 className="font-medium text-sm">Locations</h1>
             <button
-              className="flex items-center space-x-4 group"
               onClick={() => {
                 setShowPickUpLocations(!showPickUpLocations),
                   showPickUpLocationsRef.current?.focus();
               }}
             >
-              <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
-                Select city
-              </span>
-              <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+              {pickUpLocation ? (
+                <span className="flex items-center space-x-4 group">
+                  <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
+                    {pickUpLocation}
+                  </span>
+                  <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+                </span>
+              ) : (
+                <span className="flex items-center space-x-4 group">
+                  <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
+                    Select city
+                  </span>
+                  <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+                </span>
+              )}
             </button>
             <div
-              className="absolute z-10 top-14 -left-3"
+              className="absolute z-10 top-16 -left-3"
               tabIndex={-1}
               ref={showPickUpLocationsRef}
               onBlur={() => {
@@ -49,28 +78,39 @@ function LocationInput() {
                 showPickUpLocationsRef.current?.blur();
               }}
             >
-              {showPickUpLocations && <DropDownList data={cityData} />}
+              {showPickUpLocations && (
+                <DropDownList
+                  data={cityData}
+                  setData={setPickUpLocation}
+                  selected={pickUpLocation}
+                />
+              )}
             </div>
           </div>
           <div className="space-y-2 relative">
             <h1 className="font-medium text-sm">Date</h1>
-            <div className="flex items-center space-x-4 group">
-              <label
-                onClick={() => showPickUpDateRef.current?.showPicker}
-                htmlFor="pickupdatepicker"
-                className="text-slate-400 text-[11px] cursor-pointer group-hover:text-blue-600  sm:text-xs"
-              >
-                Select date
-                <input
-                  id="pickupdatepicker"
-                  type="date"
-                  className=" hidden"
-                  ref={showPickUpDateRef}
-                />
-              </label>
-
-              <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
-            </div>
+            <button
+              onClick={() => {
+                setShowPickUpDate(!showPickUpDate);
+                showPickUpDateRef.current?.focus();
+              }}
+            >
+              {pickUpDate ? (
+                <span className="flex items-center space-x-4 group">
+                  <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
+                    {pickUpDate}
+                  </span>
+                  <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+                </span>
+              ) : (
+                <span className="flex items-center space-x-4 group">
+                  <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
+                    Select date
+                  </span>
+                  <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+                </span>
+              )}
+            </button>
             <div
               className="absolute z-10 top-14 -left-3"
               tabIndex={-1}
@@ -80,7 +120,13 @@ function LocationInput() {
                   showPickUpDateRef.current?.blur();
               }}
             >
-              {showPickUpDate && <DropDownList data={[]} />}
+              {showPickUpDate && (
+                <DropDownList
+                  data={dates}
+                  setData={setPickUpDate}
+                  selected={pickUpDate}
+                />
+              )}
             </div>
           </div>
           <div className="space-y-2 relative">
@@ -92,10 +138,21 @@ function LocationInput() {
                   showPickUpTimeRef.current?.focus();
               }}
             >
-              <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
-                Select time
-              </span>
-              <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+              {pickUpTime ? (
+                <span className="flex items-center space-x-4 group">
+                  <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
+                    {pickUpTime}
+                  </span>
+                  <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+                </span>
+              ) : (
+                <span className="flex items-center space-x-4 group">
+                  <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
+                    Select city
+                  </span>
+                  <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+                </span>
+              )}
             </button>
             <div
               className="absolute z-10 top-14 -right-3"
@@ -106,7 +163,13 @@ function LocationInput() {
                   showPickUpTimeRef.current?.blur();
               }}
             >
-              {showPickUpTime && <DropDownList data={timeData} />}
+              {showPickUpTime && (
+                <DropDownList
+                  data={timeData}
+                  setData={setPickUpTime}
+                  selected={pickUpTime}
+                />
+              )}
             </div>
           </div>
         </div>
@@ -123,19 +186,29 @@ function LocationInput() {
           <div className="space-y-2 relative">
             <h1 className="font-medium text-sm">Locations</h1>
             <button
-              className="flex items-center space-x-4 group"
               onClick={() => {
                 setShowDropOffLocations(!showDropOffLocations),
                   showDropOffLocationsRef.current?.focus();
               }}
             >
-              <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
-                Select city
-              </span>
-              <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+              {dropOffLocation ? (
+                <span className="flex items-center space-x-4 group">
+                  <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
+                    {dropOffLocation}
+                  </span>
+                  <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+                </span>
+              ) : (
+                <span className="flex items-center space-x-4 group">
+                  <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
+                    Select city
+                  </span>
+                  <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+                </span>
+              )}
             </button>
             <div
-              className="absolute z-10 top-14 -left-3"
+              className="absolute z-10 top-16 -left-3"
               tabIndex={-1}
               ref={showDropOffLocationsRef}
               onBlur={() => {
@@ -143,7 +216,13 @@ function LocationInput() {
                 showDropOffLocationsRef.current?.blur();
               }}
             >
-              {showDropOffLocations && <DropDownList data={cityData} />}
+              {showDropOffLocations && (
+                <DropDownList
+                  data={cityData}
+                  setData={setDropOffLocation}
+                  selected={dropOffLocation}
+                />
+              )}
             </div>
           </div>
           <div className="space-y-2 relative">
@@ -155,10 +234,21 @@ function LocationInput() {
                   showDropOffDateRef.current?.focus();
               }}
             >
-              <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
-                Select date
-              </span>
-              <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+              {dropOffDate ? (
+                <span className="flex items-center space-x-4 group">
+                  <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
+                    {dropOffDate}
+                  </span>
+                  <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+                </span>
+              ) : (
+                <span className="flex items-center space-x-4 group">
+                  <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
+                    Select date
+                  </span>
+                  <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+                </span>
+              )}
             </button>
             <div
               className="absolute z-10 top-14 -left-3"
@@ -169,7 +259,13 @@ function LocationInput() {
                 showDropOffDateRef.current?.blur();
               }}
             >
-              {showDropOffDate && <DropDownList data={[]} />}
+              {showDropOffDate && (
+                <DropDownList
+                  data={dates}
+                  setData={setDropOffDate}
+                  selected={dropOffDate}
+                />
+              )}
             </div>
           </div>
           <div className="space-y-2 relative">
@@ -181,10 +277,21 @@ function LocationInput() {
                   showDropOffTimeRef.current?.focus();
               }}
             >
-              <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
-                Select time
-              </span>
-              <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+              {dropOffTime ? (
+                <span className="flex items-center space-x-4 group">
+                  <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
+                    {dropOffTime}
+                  </span>
+                  <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+                </span>
+              ) : (
+                <span className="flex items-center space-x-4 group">
+                  <span className="text-slate-400 text-[11px] group-hover:text-blue-600  sm:text-xs">
+                    Select city
+                  </span>
+                  <IoChevronDownOutline className="text-slate-600 group-hover:text-blue-600  sm:text-xs" />
+                </span>
+              )}
             </button>
             <div
               className="absolute z-10 top-14 -right-3"
@@ -195,7 +302,13 @@ function LocationInput() {
                 showDropOffTimeRef.current?.blur();
               }}
             >
-              {showDropOffTime && <DropDownList data={timeData} />}
+              {showDropOffTime && (
+                <DropDownList
+                  data={timeData}
+                  setData={setDropOffTime}
+                  selected={dropOffTime}
+                />
+              )}
             </div>
           </div>
         </div>

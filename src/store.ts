@@ -14,6 +14,12 @@ const creator = (set: any) => ({
     Price: 60,
   },
 
+  pickUpLocation: "",
+  dropOffLocation: "",
+  pickUpTime: "",
+  dropOffTime: "",
+  pickUpDate: "",
+  dropOffDate: "",
   user: {
     name: "",
     profileUrl: "",
@@ -26,6 +32,20 @@ const creator = (set: any) => ({
   setToken: (newToken: string) => set(() => ({ token: newToken })),
   setFilter: (newFilter: any) => set(() => ({ filter: newFilter })),
   setUser: (newUser: any) => set(() => ({ user: newUser })),
+  setPickUpLocation: (newPickUpLocation: string) =>
+    set(() => ({ pickUpLocation: newPickUpLocation })),
+  setDropOffLocation: (newDropOffLocation: string) =>
+    set(() => ({ dropOffLocation: newDropOffLocation })),
+
+  setPickUpDate: (newPickUpDate: string) =>
+    set(() => ({ pickUpDate: newPickUpDate })),
+  setDropOffDate: (newDropOffDate: string) =>
+    set(() => ({ dropOffDate: newDropOffDate })),
+
+  setPickUpTime: (newPickUpTime: string) =>
+    set(() => ({ pickUpTime: newPickUpTime })),
+  setDropOffTime: (newDropOffTime: string) =>
+    set(() => ({ dropOffTime: newDropOffTime })),
 });
 
 const useRental = create(persist(creator, storageModule));
