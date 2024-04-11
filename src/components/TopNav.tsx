@@ -205,6 +205,25 @@ function TopNav() {
                     <span>Notifications</span>
                   </li>
                 </NavLink>
+
+                <NavLink
+                  to={"/bookings"}
+                  style={({ isActive }) =>
+                    isActive
+                      ? {
+                          color: "#2563eb",
+                        }
+                      : { color: "" }
+                  }
+                >
+                  <li className="flex  justify-start p-2 space-x-12 items-center cursor-pointer">
+                    <FaCalendarDays
+                      className="h-6 w-6 cursor-pointer"
+                      title="bookings"
+                    />
+                    <span>Bookings</span>
+                  </li>
+                </NavLink>
                 <NavLink
                   to={"/settings"}
                   style={({ isActive }) =>
@@ -317,10 +336,7 @@ function TopNav() {
               : { color: "" }
           }
         >
-          <FaCalendarDays
-            className="h-6 w-6 cursor-pointer"
-            title="bookings"
-          />
+          <FaCalendarDays className="h-6 w-6 cursor-pointer" title="bookings" />
         </NavLink>
         <NavLink
           to={"/"}

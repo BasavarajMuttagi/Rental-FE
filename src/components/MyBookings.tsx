@@ -26,7 +26,7 @@ function MyBookings() {
     );
   }
   return (
-    <div className="h-screen w-full bg-white">
+    <div className="h-screen w-full bg-white overflow-y-scroll">
       <BookedCardCarousel data={Bookings?.data.results} />
     </div>
   );
