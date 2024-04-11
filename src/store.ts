@@ -1,33 +1,82 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import { LocationType } from "./Zod/schemas";
+import { LocationType, PaymentSchemaType } from "./Zod/schemas";
 
 const storageModule = {
   name: "Rental-storage",
   storage: createJSONStorage(() => sessionStorage),
 };
 
+const paymentInfoInitialState = {
+  carId: "",
+  billingInfo: {
+    fullname: "",
+    phone: "",
+    address: "",
+    city: "",
+  },
+  rentalInfo: {
+    pickUpLocation: "",
+    pickUpDateAndTime: "",
+    dropOffLocation: "",
+    dropOffDateAndTime: "",
+  },
+  cardInfo: {
+    cardNumber: "",
+    ExpirationDate: "",
+    CardHolder: "",
+    CVV: "",
+  },
+  confirmation: {
+    newsletter: false,
+    terms: false,
+  },
+};
 const creator = (set: any) => ({
   token: "",
+
   filter: {
     Type: [] as [],
     Capacity: [] as string[],
     Price: 60,
   },
 
-
-
   rentalInfo: {
     pickUpLocation: "",
-    pickUpTime: "",
-    pickUpDate: "",
+    pickUpDateAndTime: "",
     dropOffLocation: "",
-    dropOffTime: "",
-    dropOffDate: "",
+    dropOffDateAndTime: "",
   },
+
   user: {
     name: "",
     profileUrl: "",
+  },
+
+  paymentInfo: {
+    carId: "",
+    billingInfo: {
+      fullname: "",
+      phone: "",
+      address: "",
+      city: "",
+    },
+    rentalInfo: {
+      pickUpLocation: "",
+      pickUpDateAndTime: "",
+      dropOffLocation: "",
+      dropOffDateAndTime: "",
+    },
+    cardInfo: {
+      cardNumber: "",
+      ExpirationDate: "",
+      CardHolder: "",
+      CVV: "",
+    },
+    confirmation: {
+      newsletter: false,
+      terms: false,
+    },
   },
   logout: () => {
     set(() => ({
@@ -40,6 +89,9 @@ const creator = (set: any) => ({
 
   setRentalInfo: (newInfo: LocationType) =>
     set(() => ({ rentalInfo: newInfo })),
+  setPaymentInfo: (newInfo: PaymentSchemaType) =>
+    set(() => ({ paymentInfo: newInfo })),
+  resetPaymentInfo: () => set(() => ({ paymentInfo: paymentInfoInitialState })),
 });
 
 const useRental = create(persist(creator, storageModule));

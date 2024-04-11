@@ -1,4 +1,15 @@
-function BillingInfoCard() {
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { PaymentSchemaType } from "../Zod/schemas";
+
+
+function BillingInfoCard({
+  register,
+  errors,
+}: {
+  register: UseFormRegister<PaymentSchemaType>;
+  errors: FieldErrors<PaymentSchemaType>;
+}) {
+
   return (
     <div className="w-full bg-white flex flex-col space-y-3 p-4 rounded border">
       <div>
@@ -20,8 +31,13 @@ function BillingInfoCard() {
             type="text"
             className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500"
             placeholder="Name"
+            {...register("billingInfo.fullname")}
           />
-          <p className="text-red-400 text-xs">Enter your name</p>
+          {errors.billingInfo?.fullname && (
+            <p className="text-red-400 text-xs">
+              {errors.billingInfo.fullname.message}
+            </p>
+          )}
         </div>
         <div className="space-y-2">
           <div className="text-slate-600 font-medium">Phone Number</div>
@@ -29,8 +45,13 @@ function BillingInfoCard() {
             type="text"
             className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500"
             placeholder="Phone Number"
+            {...register("billingInfo.phone")}
           />
-          <p className="text-red-400 text-xs">Enter your phone number </p>
+          {errors.billingInfo?.phone && (
+            <p className="text-red-400 text-xs">
+              {errors.billingInfo.phone.message}
+            </p>
+          )}
         </div>
         <div className="space-y-2">
           <div className="text-slate-600 font-medium">Address</div>
@@ -38,8 +59,13 @@ function BillingInfoCard() {
             type="text"
             className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500"
             placeholder="Address"
+            {...register("billingInfo.address")}
           />
-          <p className="text-red-400 text-xs">Enter your address </p>
+          {errors.billingInfo?.address && (
+            <p className="text-red-400 text-xs">
+              {errors.billingInfo.address.message}
+            </p>
+          )}
         </div>
         <div className="space-y-2">
           <div className="text-slate-600 font-medium">Town/city</div>
@@ -47,8 +73,13 @@ function BillingInfoCard() {
             type="text"
             className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500"
             placeholder="Town/City"
+            {...register("billingInfo.city")}
           />
-          <p className="text-red-400 text-xs">Enter your town/city </p>
+          {errors.billingInfo?.city && (
+            <p className="text-red-400 text-xs">
+              {errors.billingInfo.city.message}
+            </p>
+          )}
         </div>
       </div>
     </div>

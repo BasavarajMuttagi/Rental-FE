@@ -27,14 +27,11 @@ export const timeData = [
 ];
 
 export const cityData = [
-  "Bijapur",
-  "Kalburgi",
-  "Hubli",
-  "Bagalkot",
-  "Belgavi",
-  "Hospet",
-  "Dharwad",
-  "Chitradurga",
+  "Keerti Nagar",
+  "Adarsh Nagar",
+  "Ram Nagar",
+  "Ganesh Nagar",
+  "Sai Park",
 ];
 
 function generateSequentialDates() {

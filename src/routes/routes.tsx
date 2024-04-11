@@ -8,8 +8,9 @@ import FavoriteLayout from "../Layouts/FavoriteLayout";
 import Login from "../Pages/Login";
 import SignUp from "../Pages/SignUp";
 import PrivateRoutes from "./PrivateRoutes";
-import DropDownList from "../components/DropDownList";
-import Test from "../components/Test";
+import Loader from "../components/Loader";
+import MyBookings from "../components/MyBookings";
+
 
 const routes = createBrowserRouter([
   {
@@ -24,13 +25,9 @@ const routes = createBrowserRouter([
         element: <SignUp />,
       },
       {
-        path: "/drop",
-        element: <DropDownList data={[]} />,
+        path: "/loading",
+        element: <Loader />,
       },
-      {
-        path:'t',
-        element:<Test/>
-      }
     ],
   },
   {
@@ -56,6 +53,10 @@ const routes = createBrowserRouter([
       {
         path: "/favorite",
         element: <FavoriteLayout />,
+      },
+      {
+        path: "/bookings",
+        element: <MyBookings />,
       },
     ],
   },

@@ -170,7 +170,7 @@ function SidePanel() {
             type="range"
             className="w-full rounded accent-blue-600"
           />
-          <div>Price : {watch("Price")}</div>
+          <div>Price : ${watch("Price")}</div>
         </div>
       </form>
 

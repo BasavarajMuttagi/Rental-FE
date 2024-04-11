@@ -1,6 +1,15 @@
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { IoIosRadioButtonOn } from "react-icons/io";
+import { PaymentSchemaType } from "../Zod/schemas";
 
-function RentalInfoCard() {
+
+function RentalInfoCard({
+  register,
+  errors,
+}: {
+  register: UseFormRegister<PaymentSchemaType>;
+  errors: FieldErrors<PaymentSchemaType>;
+}) {
   return (
     <div className="w-full bg-white flex flex-col space-y-10 p-4 rounded border">
       <div>
@@ -28,26 +37,28 @@ function RentalInfoCard() {
                 type="text"
                 className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500"
                 placeholder="Select your city"
+                {...register("rentalInfo.pickUpLocation")}
               />
-              <p className="text-red-400 text-xs">select your city</p>
+              {errors.rentalInfo?.pickUpLocation && (
+                <p className="text-red-400 text-xs">
+                  {errors.rentalInfo.pickUpLocation.message}
+                </p>
+              )}
             </div>
             <div className="space-y-2">
-              <div className="text-slate-600 font-medium">Date</div>
+              <div className="text-slate-600 font-medium">Date & Time</div>
               <input
-                type="text"
+                type="datetime-local"
+                readOnly
                 className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500"
                 placeholder="select your date"
+                {...register("rentalInfo.pickUpDateAndTime")}
               />
-              <p className="text-red-400 text-xs">select your date</p>
-            </div>
-            <div className="space-y-2">
-              <div className="text-slate-600 font-medium">Time</div>
-              <input
-                type="text"
-                className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500"
-                placeholder="select your time"
-              />
-              <p className="text-red-400 text-xs">select your time</p>
+              {errors.rentalInfo?.pickUpDateAndTime && (
+                <p className="text-red-400 text-xs">
+                  {errors.rentalInfo.pickUpDateAndTime.message}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -64,26 +75,28 @@ function RentalInfoCard() {
                 type="text"
                 className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500"
                 placeholder="Select your city"
+                {...register("rentalInfo.dropOffLocation")}
               />
-              <p className="text-red-400 text-xs">select your city</p>
+              {errors.rentalInfo?.dropOffLocation && (
+                <p className="text-red-400 text-xs">
+                  {errors.rentalInfo.dropOffLocation.message}
+                </p>
+              )}
             </div>
             <div className="space-y-2">
-              <div className="text-slate-600 font-medium">Date</div>
+              <div className="text-slate-600 font-medium">Date & Time</div>
               <input
-                type="text"
+                type="datetime-local"
+                readOnly
                 className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500"
                 placeholder="select your date"
+                {...register("rentalInfo.dropOffDateAndTime")}
               />
-              <p className="text-red-400 text-xs">select your date</p>
-            </div>
-            <div className="space-y-2">
-              <div className="text-slate-600 font-medium">Time</div>
-              <input
-                type="text"
-                className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500"
-                placeholder="select your time"
-              />
-              <p className="text-red-400 text-xs">select your time</p>
+              {errors.rentalInfo?.dropOffDateAndTime && (
+                <p className="text-red-400 text-xs">
+                  {errors.rentalInfo.dropOffDateAndTime.message}
+                </p>
+              )}
             </div>
           </div>
         </div>

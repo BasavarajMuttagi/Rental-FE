@@ -1,4 +1,13 @@
-function ConfirmationCard() {
+import { UseFormRegister, FieldErrors } from "react-hook-form";
+import { PaymentSchemaType } from "../Zod/schemas";
+
+function ConfirmationCard({
+  register,
+  errors,
+}: {
+  register: UseFormRegister<PaymentSchemaType>;
+  errors: FieldErrors<PaymentSchemaType>;
+}) {
   return (
     <div className="w-full bg-white flex flex-col space-y-3 p-4 rounded border">
       <div>
@@ -16,25 +25,33 @@ function ConfirmationCard() {
       <div className="space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-baseline sm:space-x-2">
           <div className="text-slate-600 font-medium">
-            <input type="checkbox" />
+            <input type="checkbox" {...register("confirmation.newsletter")} />
           </div>
           <div className="space-y-2 w-full">
             <div className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500">
               I agree with sending an Marketing and newsletter emails. No spam,
               promissed!
             </div>
-            <p className="text-red-400 text-xs">select the check box</p>
+            {errors.confirmation?.newsletter && (
+              <p className="text-red-400 text-xs">
+                {errors.confirmation.newsletter.message}
+              </p>
+            )}
           </div>
         </div>
         <div className="flex flex-col sm:flex-row sm:flex sm:items-baseline sm:space-x-2">
           <div className="text-slate-600 font-medium">
-            <input type="checkbox" />
+            <input type="checkbox" {...register("confirmation.terms")} />
           </div>
           <div className="space-y-2 w-full">
             <div className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500">
               I agree with our terms and conditions and privacy policy.
             </div>
-            <p className="text-red-400 text-xs">select the check box</p>
+            {errors.confirmation?.terms && (
+              <p className="text-red-400 text-xs">
+                {errors.confirmation.terms.message}
+              </p>
+            )}
           </div>
         </div>
       </div>

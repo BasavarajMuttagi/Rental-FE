@@ -16,6 +16,7 @@ import SuggestionsDropDown from "./SuggestionsDropDown";
 import { enqueueSnackbar } from "notistack";
 import axios from "axios";
 import useRental from "../store";
+import { FaCalendarDays } from "react-icons/fa6";
 function TopNav() {
   const [searchTerm, setSearchTerm] = useState("");
   const [showSuggestion, setShowSuggestion] = useState(false);
@@ -304,6 +305,21 @@ function TopNav() {
           <IoNotificationsSharp
             className="h-6 w-6 cursor-pointer"
             title="notifications"
+          />
+        </NavLink>
+        <NavLink
+          to={"/bookings"}
+          style={({ isActive }) =>
+            isActive
+              ? {
+                  color: "#2563eb",
+                }
+              : { color: "" }
+          }
+        >
+          <FaCalendarDays
+            className="h-6 w-6 cursor-pointer"
+            title="bookings"
           />
         </NavLink>
         <NavLink

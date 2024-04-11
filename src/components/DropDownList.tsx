@@ -2,17 +2,16 @@ import { twMerge } from "tailwind-merge";
 import { LocationType } from "../Zod/schemas";
 import { UseFormRegister } from "react-hook-form";
 
+
 interface DropDownListProps {
   data: string[];
   selected: string;
   register: UseFormRegister<LocationType>;
   inputType:
     | "pickUpLocation"
-    | "pickUpTime"
-    | "pickUpDate"
     | "dropOffLocation"
-    | "dropOffTime"
-    | "dropOffDate";
+    | "pickUpDateAndTime"
+    | "dropOffDateAndTime";
 }
 const DropDownList = ({
   data,

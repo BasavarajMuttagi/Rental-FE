@@ -5,9 +5,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Car } from "./CarsCardCarosel";
 import bg from "../assets/bg.jpg";
 import CarDetailSK from "../skeletons/CarDetailSK";
+import useRental from "../store";
 function CarDetail() {
   const navigate = useNavigate();
   let { id } = useParams();
+  const { setPaymentInfo, paymentInfo } = useRental();
   const { data, isError, isLoading, error } = useQuery({
     queryKey: ["cardetail", id],
     queryFn: async () => await AxiosClient().get(`/api/v1/detail/${id}`),
@@ -75,16 +77,22 @@ function CarDetail() {
               className="text-[#90A3BF] text-sm
           "
             >
-              day
+              hr
             </span>
             <div className="text-slate-500 text-xs">
-              <s>${CarDetail.price.rentalPrice}/day</s>
+              <s>${CarDetail.price.rentalPrice}/hr</s>
             </div>
           </div>
           <div>
             <button
               className="text  text-white bg-blue-600 px-3 py-2 rounded"
-              onClick={() => navigate("/payment")}
+              onClick={() => {
+                setPaymentInfo({
+                  ...paymentInfo,
+                  carId: id,
+                });
+                navigate("/payment");
+              }}
             >
               Proceed to Payment
             </button>

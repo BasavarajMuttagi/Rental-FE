@@ -134,10 +134,10 @@ function CarCard({
             className="text-[#90A3BF] text-sm
           "
           >
-            day
+            hr
           </span>
           <div className="text-slate-500 text-xs">
-            <s>${rentalPrice}/day</s>
+            <s>${rentalPrice}/hr</s>
           </div>
         </div>
         <div>

@@ -1,6 +1,14 @@
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { IoIosRadioButtonOn } from "react-icons/io";
+import { PaymentSchemaType } from "../Zod/schemas";
+function PaymentMethodCard({
+  register,
+  errors,
+}: {
+  register: UseFormRegister<PaymentSchemaType>;
+  errors: FieldErrors<PaymentSchemaType>;
+}) {
 
-function PaymentMethodCard() {
   return (
     <div className="w-full bg-white flex flex-col space-y-10 p-4 rounded border">
       <div>
@@ -27,17 +35,27 @@ function PaymentMethodCard() {
               type="text"
               className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500"
               placeholder="Card Number"
+              {...register("cardInfo.cardNumber")}
             />
-            <p className="text-red-400 text-xs">Enter your card number</p>
+            {errors.cardInfo?.cardNumber && (
+              <p className="text-red-400 text-xs">
+                {errors.cardInfo.cardNumber.message}
+              </p>
+            )}
           </div>
           <div className="space-y-2">
             <div className="text-slate-600 font-medium">Expiration Date</div>
+            
             <input
-              type="text"
+              type="date"
               className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500"
-              placeholder="DD/MM/YYYY"
+              {...register("cardInfo.ExpirationDate")}
             />
-            <p className="text-red-400 text-xs">Enter card expiration date</p>
+            {errors.cardInfo?.ExpirationDate && (
+              <p className="text-red-400 text-xs">
+                {errors.cardInfo.ExpirationDate.message}
+              </p>
+            )}
           </div>
           <div className="space-y-2">
             <div className="text-slate-600 font-medium">Card Holder Name</div>
@@ -45,8 +63,13 @@ function PaymentMethodCard() {
               type="text"
               className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500"
               placeholder="Card Holder Name"
+              {...register("cardInfo.CardHolder")}
             />
-            <p className="text-red-400 text-xs">Enter card holder name</p>
+            {errors.cardInfo?.CardHolder && (
+              <p className="text-red-400 text-xs">
+                {errors.cardInfo.CardHolder.message}
+              </p>
+            )}
           </div>
           <div className="space-y-2">
             <div className="text-slate-600 font-medium">CVV</div>
@@ -54,8 +77,13 @@ function PaymentMethodCard() {
               type="text"
               className="p-4 bg-slate-100 rounded text-sm w-full outline-none placeholder:text-slate-500"
               placeholder="CVV"
+              {...register("cardInfo.CVV")}
             />
-            <p className="text-red-400 text-xs">Enter CVV</p>
+            {errors.cardInfo?.CVV && (
+              <p className="text-red-400 text-xs">
+                {errors.cardInfo.CVV.message}
+              </p>
+            )}
           </div>
         </div>
       </div>

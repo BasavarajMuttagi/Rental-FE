@@ -48,14 +48,24 @@ function CarsCardCarosel({
   url: string;
   queryKey: string;
 }) {
+  const {
+    rentalInfo: {
+      pickUpLocation,
+      dropOffLocation,
+      pickUpDateAndTime,
+      dropOffDateAndTime
+    },
+  } = useRental();
   const location = useLocation();
   const filter = useRental((state) => state.filter);
+  const rentalInfo = useRental((state) => state.rentalInfo);
+
   const { data, isError, isLoading, error } = useQuery({
-    queryKey: [queryKey, filter],
+    queryKey: [queryKey, filter,rentalInfo.pickUpLocation],
     queryFn: async () =>
       await AxiosClient().get(
         url ||
-          `/api/v1/cars?Type=${filter.Type}&Capacity=${filter.Capacity}&Price=${filter.Price}`
+          `/api/v1/cars?Type=${filter.Type}&Capacity=${filter.Capacity}&Price=${filter.Price}&PickUp=${pickUpLocation}&PickUpDateAndTime=${pickUpDateAndTime}&DropOff=${dropOffLocation}&DropOffDateAndTime=${dropOffDateAndTime}`
       ),
   });
 

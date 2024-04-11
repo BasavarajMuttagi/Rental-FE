@@ -1,5 +1,6 @@
 import CarsCardCarosel from "../components/CarsCardCarosel";
 import Footer from "../components/Footer";
+import LocationInput from "../components/LocationInput";
 
 import SidePanel from "../components/SidePanel";
 import TopNav from "../components/TopNav";
@@ -13,6 +14,9 @@ function CategoryLayout() {
           <SidePanel />
         </div>
         <div className="overflow-y-scroll no-scrollbar w-full">
+          <div className="px-7">
+            <LocationInput />
+          </div>
           <CarsCardCarosel title={""} url="" queryKey="allcars" />
         </div>
       </div>
