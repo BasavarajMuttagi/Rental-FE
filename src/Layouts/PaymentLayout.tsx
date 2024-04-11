@@ -9,14 +9,22 @@ import TopNav from "../components/TopNav";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PaymentSchema, PaymentSchemaType } from "../Zod/schemas";
 
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useQuery } from "@tanstack/react-query";
 import AxiosClient from "../Axios/AxiosClient";
 import BillingInfoSK from "../skeletons/BillingInfoSK";
 import useRental from "../store";
+import { useNavigate } from "react-router-dom";
 
 function PaymentLayout() {
-  const { rentalInfo, paymentInfo, setPaymentInfo, resetPaymentInfo } =
-    useRental();
+  const client = new QueryClient();
+  const navigate = useNavigate();
+  const {
+    rentalInfo,
+    paymentInfo,
+    setPaymentInfo,
+    resetPaymentInfo,
+    resetRentalInfo,
+  } = useRental();
   const getBillingInfo = async () => {
     const result = await AxiosClient().get("/auth/billinginfo");
     return result;
@@ -54,9 +62,17 @@ function PaymentLayout() {
   });
 
   const PayNow = async () => {
-    const result = await AxiosClient().post("/booking/create", paymentInfo);
-    console.log(result);
-    resetPaymentInfo();
+    try {
+      await AxiosClient().post("/booking/create", paymentInfo);
+      resetPaymentInfo();
+      resetRentalInfo();
+      client.invalidateQueries({
+        queryKey: ["bookings"],
+      });
+      navigate("/bookings", { replace: true });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const setPaymentInfoToStore = (data: PaymentSchemaType) => {

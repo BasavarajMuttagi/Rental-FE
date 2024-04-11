@@ -6,8 +6,10 @@ import useRental from "../store";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LocationSchema, LocationType } from "../Zod/schemas";
+import { Link, useLocation } from "react-router-dom";
 
 function LocationInput() {
+  const location = useLocation();
   const { rentalInfo, setRentalInfo, setPaymentInfo, paymentInfo } =
     useRental();
   const { register, getValues } = useForm<LocationType>({
@@ -80,6 +82,14 @@ function LocationInput() {
           </div>
         </div>
       </div>
+      {location.pathname == "/" && (
+        <Link
+          to={"/category"}
+          className="px-4 py-1 rounded bg-blue-600 text-white text-xl flex items-center space-x-4"
+        >
+          <span>Search</span>
+        </Link>
+      )}
     </form>
   );
 }

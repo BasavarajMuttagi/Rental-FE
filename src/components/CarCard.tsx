@@ -5,9 +5,10 @@ import { TbManualGearbox } from "react-icons/tb";
 import { BsFuelPumpFill } from "react-icons/bs";
 import { useState, useEffect } from "react";
 import CarCardSK from "../skeletons/CarCardSK";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AxiosClient from "../Axios/AxiosClient";
 import { useQueryClient } from "@tanstack/react-query";
+import { twMerge } from "tailwind-merge";
 
 function CarCard({
   id,
@@ -36,6 +37,7 @@ function CarCard({
   offerPrice: number;
   rentalPrice: number;
 }) {
+  const location = useLocation();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const queryClient = useQueryClient();
@@ -142,10 +144,13 @@ function CarCard({
         </div>
         <div>
           <button
-            className="text  text-white bg-blue-600 px-3 py-2 rounded"
+            className={twMerge(
+              "text  text-white bg-blue-600 px-3 py-2 rounded",
+              location.pathname === "/bookings" ? "bg-green-600" : ""
+            )}
             onClick={() => navigate(`/car/${id}`)}
           >
-            Rent Now
+            {location.pathname === "/bookings" ? "Booked" : "Rent Now"}
           </button>
         </div>
       </div>

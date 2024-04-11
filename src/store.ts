@@ -32,6 +32,13 @@ const paymentInfoInitialState = {
     terms: false,
   },
 };
+
+const rentalInfoInitialState = {
+  pickUpLocation: "",
+  pickUpDateAndTime: "",
+  dropOffLocation: "",
+  dropOffDateAndTime: "",
+};
 const creator = (set: any) => ({
   token: "",
 
@@ -92,6 +99,7 @@ const creator = (set: any) => ({
   setPaymentInfo: (newInfo: PaymentSchemaType) =>
     set(() => ({ paymentInfo: newInfo })),
   resetPaymentInfo: () => set(() => ({ paymentInfo: paymentInfoInitialState })),
+  resetRentalInfo: () => set(() => ({ rentalInfo: rentalInfoInitialState })),
 });
 
 const useRental = create(persist(creator, storageModule));

@@ -9,7 +9,7 @@ import Login from "../Pages/Login";
 import SignUp from "../Pages/SignUp";
 import PrivateRoutes from "./PrivateRoutes";
 import Loader from "../components/Loader";
-import MyBookings from "../components/MyBookings";
+import Bookings from "../Pages/Bookings";
 
 
 const routes = createBrowserRouter([
@@ -56,7 +56,7 @@ const routes = createBrowserRouter([
       },
       {
         path: "/bookings",
-        element: <MyBookings />,
+        element: <Bookings />,
       },
     ],
   },
