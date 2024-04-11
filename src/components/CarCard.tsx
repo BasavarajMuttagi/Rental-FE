@@ -149,6 +149,7 @@ function CarCard({
               location.pathname === "/bookings" ? "bg-green-600" : ""
             )}
             onClick={() => navigate(`/car/${id}`)}
+            disabled={location.pathname === "/bookings"}
           >
             {location.pathname === "/bookings" ? "Booked" : "Rent Now"}
           </button>
