@@ -14,10 +14,12 @@ import AxiosClient from "../Axios/AxiosClient";
 import BillingInfoSK from "../skeletons/BillingInfoSK";
 import useRental from "../store";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 function PaymentLayout() {
   const client = new QueryClient();
   const navigate = useNavigate();
+  const [isSpin, setIsSpin] = useState(false);
   const {
     rentalInfo,
     paymentInfo,
@@ -63,6 +65,7 @@ function PaymentLayout() {
 
   const PayNow = async () => {
     try {
+      setIsSpin(true);
       await AxiosClient().post("/booking/create", paymentInfo);
       resetPaymentInfo();
       resetRentalInfo();
@@ -72,6 +75,8 @@ function PaymentLayout() {
       navigate("/bookings", { replace: true });
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsSpin(false);
     }
   };
 
@@ -97,7 +102,7 @@ function PaymentLayout() {
           <ConfirmationCard register={register} errors={errors} />
         </div>
         <div className="w-full sm:w-[30%]">
-          <RentalSummary id={paymentInfo.carId} />
+          <RentalSummary id={paymentInfo.carId} isSpin={isSpin} />
         </div>
       </form>
       <Footer />

@@ -5,7 +5,8 @@ import AxiosClient from "../Axios/AxiosClient";
 import { useQuery } from "@tanstack/react-query";
 import { Car } from "./CarsCardCarosel";
 import RentalSummarySK from "../skeletons/RentalSummarySK";
-function RentalSummary({ id }: { id: string }) {
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+function RentalSummary({ id, isSpin }: { id: string; isSpin: boolean }) {
   const { data, isError, isLoading, error } = useQuery({
     queryKey: ["rentalsummary", id],
     queryFn: async () => await AxiosClient().get(`/api/v1/detail/${id}`),
@@ -93,7 +94,11 @@ function RentalSummary({ id }: { id: string }) {
         type="submit"
       >
         <span>Pay Now</span>
-        <GoArrowRight className="w-8 h-8" />
+
+        {!isSpin && <GoArrowRight className="w-8 h-8" />}
+        {isSpin && (
+          <AiOutlineLoading3Quarters className="inline ml-2 animate-spin w-8 h-8" />
+        )}
       </button>
     </div>
   );
