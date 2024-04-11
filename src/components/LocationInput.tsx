@@ -23,7 +23,7 @@ function LocationInput() {
         setRentalInfo(getValues());
         setPaymentInfo({ ...paymentInfo, rentalInfo: getValues() });
       }}
-      className="w-full flex flex-col items-end space-y-4  sm:p-6 sm:py-3"
+      className="p-1 w-full flex flex-col items-end space-y-4  sm:p-6 sm:py-3"
     >
       <div className="flex flex-col items-center w-full space-y-1 sm:space-y-0 sm:flex-row sm:justify-between sm:space-x-4">
         <div className="bg-white rounded space-y-3 p-3 border   w-full">
