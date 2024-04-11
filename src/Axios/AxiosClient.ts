@@ -3,7 +3,7 @@ import useRental from "../store";
 
 function AxiosClient() {
   return axios.create({
-    baseURL: "http://localhost:3000",
+    baseURL: "https://rental-be.vercel.app",
     headers: {
       Authorization: `Bearer ${useRental.getState().token}`,
     },
